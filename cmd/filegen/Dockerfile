@@ -1,5 +1,5 @@
 
-FROM golang:1.13.6 as builder
+FROM golang:1.26.2 as builder
 MAINTAINER MultiversX
 
 WORKDIR /go/mx-chain-deploy-go

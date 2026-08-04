@@ -1,6 +1,6 @@
 module github.com/multiversx/mx-chain-deploy-go
 
-go 1.26
+go 1.26.2
 
 require (
 	github.com/multiversx/mx-chain-core-go v1.5.1-0.20260618130450-9b7f1defd425
