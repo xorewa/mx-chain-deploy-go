@@ -60,6 +60,9 @@ func TestDirectStakingGenerator_GenerateShouldWork(t *testing.T) {
 	assert.Equal(t, int(arg.NumAdditionalWalletKeys), len(generatedOutput.AdditionalKeys))
 	assert.Equal(t, int(arg.NumValidatorBlsKeys), len(generatedOutput.InitialNodes))
 	assert.Equal(t, 0, len(generatedOutput.DelegatorKeys))
+	for _, node := range generatedOutput.InitialNodes {
+		assert.Equal(t, uint32(arg.InitialRating), node.InitialRating)
+	}
 
 	iac, _ := check.NewInitialAccountsChecker(arg.NodePrice, arg.TotalSupply)
 	assert.Nil(t, err, iac.CheckInitialAccounts(generatedOutput.InitialAccounts))

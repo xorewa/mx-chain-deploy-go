@@ -7,6 +7,7 @@ import (
 	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	"github.com/multiversx/mx-chain-deploy-go/data"
+	chainConfig "github.com/multiversx/mx-chain-go/config"
 	mxData "github.com/multiversx/mx-chain-go/genesis/data"
 	"github.com/multiversx/mx-chain-go/sharding"
 	logger "github.com/multiversx/mx-chain-logger-go"
@@ -102,16 +103,21 @@ func NewOutputHandler(arg ArgOutputHandler) (*outputHandler, error) {
 func (oh *outputHandler) writeNodesSetup(
 	initialNodes []*sharding.InitialNode,
 ) error {
-	nodes := &sharding.NodesSetup{
-		StartTime:                   0,
-		RoundDuration:               oh.roundDuration,
-		ConsensusGroupSize:          uint32(oh.consensusGroupSize),
-		MinNodesPerShard:            uint32(oh.numOfNodesPerShard),
-		MetaChainConsensusGroupSize: uint32(oh.metachainConsensusGroupSize),
-		MetaChainMinNodes:           uint32(oh.numOfMetachainNodes),
-		Hysteresis:                  oh.hysteresisValue,
-		Adaptivity:                  oh.adaptivityValue,
-		InitialNodes:                initialNodes,
+	nodes := &chainConfig.NodesConfig{
+		StartTime:    0,
+		InitialNodes: make([]*chainConfig.InitialNodeConfig, 0, len(initialNodes)),
+	}
+	for _, initialNode := range initialNodes {
+		if initialNode == nil {
+			nodes.InitialNodes = append(nodes.InitialNodes, nil)
+			continue
+		}
+
+		nodes.InitialNodes = append(nodes.InitialNodes, &chainConfig.InitialNodeConfig{
+			PubKey:        initialNode.PubKey,
+			Address:       initialNode.Address,
+			InitialRating: initialNode.InitialRating,
+		})
 	}
 
 	return oh.nodesSetupHandler.WriteObjectInFile(nodes)

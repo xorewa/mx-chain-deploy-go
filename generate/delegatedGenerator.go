@@ -31,6 +31,7 @@ func NewDelegatedGenerator(arg ArgDelegatedStakingGenerator) (*delegatedStakingG
 				totalSupply:              arg.TotalSupply,
 				walletPubKeyConverter:    arg.WalletPubKeyConverter,
 				validatorPubKeyConverter: arg.ValidatorPubKeyConverter,
+				initialRating:            uint32(arg.InitialRating),
 			},
 			numDelegators: arg.NumDelegators,
 		},

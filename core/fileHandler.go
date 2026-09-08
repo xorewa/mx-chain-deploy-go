@@ -24,7 +24,7 @@ func NewFileHandler(outputDirectory string, fileName string) (*fileHandler, erro
 		return nil, err
 	}
 
-	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, 0666)
+	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		return nil, err
 	}

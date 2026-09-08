@@ -247,10 +247,12 @@ func generate(ctx *cli.Context) error {
 		return err
 	}
 
-	numValidatorsOnAShard := int(math.Ceil(float64(numOfNodesPerShardValue) * (1 + hysteresisValue)))
-	numShardValidators := numOfShardsValue * numValidatorsOnAShard
-	numValidatorsOnMeta := int(math.Ceil(float64(metachainConsensusGroupSizeValue) * (1 + hysteresisValue)))
-	numValidators := numShardValidators + numValidatorsOnMeta
+	_, _, numValidators := computeValidatorPopulation(
+		numOfShardsValue,
+		numOfNodesPerShardValue,
+		numOfMetachainNodesValue,
+		hysteresisValue,
+	)
 	numObservers := numOfShardsValue*numOfObserversPerShardValue + numOfMetachainObserversValue
 
 	invalidNumPrivPubKey := numValidators < 1 ||
@@ -371,6 +373,19 @@ func generate(ctx *cli.Context) error {
 	log.Info("elapsed time", "value", time.Since(startTime))
 	log.Info("files generated successfully!")
 	return nil
+}
+
+func computeValidatorPopulation(
+	numOfShards int,
+	numOfNodesPerShard int,
+	numOfMetachainNodes int,
+	hysteresis float64,
+) (int, int, int) {
+	numValidatorsOnAShard := int(math.Ceil(float64(numOfNodesPerShard) * (1 + hysteresis)))
+	numValidatorsOnMeta := int(math.Ceil(float64(numOfMetachainNodes) * (1 + hysteresis)))
+	total := numOfShards*numValidatorsOnAShard + numValidatorsOnMeta
+
+	return numValidatorsOnAShard, numValidatorsOnMeta, total
 }
 
 func prepareOutputDirectory(outputDirectory string) error {

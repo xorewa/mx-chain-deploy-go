@@ -42,6 +42,7 @@ func NewDirectStakingGenerator(arg ArgDirectStakingGenerator) (*directStakingGen
 			totalSupply:              arg.TotalSupply,
 			walletPubKeyConverter:    arg.WalletPubKeyConverter,
 			validatorPubKeyConverter: arg.ValidatorPubKeyConverter,
+			initialRating:            uint32(arg.InitialRating),
 		},
 		maxNumNodesOnOwner: arg.MaxNumNodesOnOwner,
 	}

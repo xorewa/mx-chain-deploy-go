@@ -42,6 +42,7 @@ func NewMixedStakingGenerator(arg ArgMixedStakingGenerator) (*mixedStakingGenera
 				totalSupply:              arg.TotalSupply,
 				walletPubKeyConverter:    arg.WalletPubKeyConverter,
 				validatorPubKeyConverter: arg.ValidatorPubKeyConverter,
+				initialRating:            uint32(arg.InitialRating),
 			},
 			numDelegators: arg.NumDelegators,
 		},

@@ -2,6 +2,24 @@
 
 The go implementation for the MultiversX deployment configs generator
 
+## R2 / Supernova compatibility
+
+The `drwa/s1-production-intent-v2.0.6` branch is the deployment generator for
+the xorewa R2 node line. It is pinned to the signed R2 production-intent node,
+core and VM-common branches and emits the current `nodesSetup.json` schema.
+
+In R2, round duration, consensus sizes, minimum node counts, hysteresis and
+adaptivity are configured in the node's `config.toml`
+`GeneralSettings.ChainParametersByEpoch` entries. They are no longer fields in
+`nodesSetup.json`. The file generator still uses its topology arguments to
+construct and validate the requested validator/observer population; operators
+must separately install a compatible R2 `config.toml`.
+
+DRWA activation epochs, genesis fixtures and gas schedules are intentionally
+not generated here. Apply the separately reviewed S1 configuration overlay
+when constructing a DRWA localnet. The generated PEM-bearing files are created
+with owner-only permissions (`0600`).
+
 # Getting started
 
 ## Prerequisites
